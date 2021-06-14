@@ -1,4 +1,4 @@
-    function add(n1: number, n2: number, showResult: boolean, outputString: String) {
+    function addFunc(n1: number, n2: number, showResult: boolean, outputString: String) {
         let result = n1 + n2;
         if (showResult) {
             return outputString + result.toString();
@@ -10,7 +10,7 @@
     let num1: number = 3;
     const num2: number = 5;
     const outputStr: string = "The result is ";
-    console.log(add(num1, num2, true, outputStr))
+    console.log(addFunc(num1, num2, true, outputStr))
 
     enum DEPARTMENT {
         IT = 1, SCIENCE = "SC", COMMERCE = 2
