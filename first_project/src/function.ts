@@ -12,5 +12,5 @@
     // combineValues = 8;
     console.log("Result : " + combineValues(3, 5))
     addAndHandle(12, 34, (result) => {
-        console.log("Callback result : " + result);
+        console.log("Callback result : " + result); 
     })
