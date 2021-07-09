@@ -112,9 +112,9 @@ const errorBag: ErrorContainer = {
 //Funtion overload
 type CombineType = string | number;
 
-function add(n1: number, n2: number):number;
-function add(n1: string, n2: string):string;
-function add(n1: CombineType, n2: CombineType) {
+function add2(n1: number, n2: number):number;
+function add2(n1: string, n2: string):string;
+function add2(n1: CombineType, n2: CombineType) {
     if (typeof n1 === 'string' || typeof n2 === 'string') {
         return n1.toString() + n2.toString();
     }
@@ -122,8 +122,8 @@ function add(n1: CombineType, n2: CombineType) {
     return n1 + n2;
 }
 
-const result = add('Deep', 'Test');
-result.split(' ');
+const result = add2('Deep', 'Test');
+console.log('Result' + result.split(' '));
 
 //Optional Chaining
 const fetchedUserData = {
