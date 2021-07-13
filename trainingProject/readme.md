@@ -1,4 +1,4 @@
-  ##Project setup - 
+  ## Project setup - 
   ````
     -> Run npm init
     -> npm install --save-dev -lite-server
