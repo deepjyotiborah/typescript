@@ -7,4 +7,5 @@
     -> update tsconfig.json with  "outDir": "./dist" & "rootDir": "./src",  
     -> npm start to start the applkication
     -> tsc -w for watch mode
+    -> Set ""experimentalDecorators": true" in tsconfig.json for decorators.
 ````
