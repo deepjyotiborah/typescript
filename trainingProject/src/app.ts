@@ -38,10 +38,25 @@ class ProjectInput {
         this.updateTempleteContentInHostElement();
     }
 
+    private gatherUserInput() : [string, string, number] | void {
+        const enteredTitle = this.titleInput.value;
+        const enteredDescription = this.descriptionInput.value;
+        const enteredPeople = this.peopleInput.value;
+    }
+
+    private clearInput() {
+        this.titleInput.value = '';
+        this.descriptionInput.value = '';
+        this.peopleInput.value = '';
+    }
     @autobind
     private submitHandler(event: Event) {
         event.preventDefault();
-        console.log(this.titleInput.value);
+        const userInput = this.gatherUserInput();
+        if (Array.isArray(userInput)) {
+            const[title, description, people] = userInput;
+        }
+        this.clearInput();
     }
     private configure() {
         this.element.addEventListener('submit', this.submitHandler)
