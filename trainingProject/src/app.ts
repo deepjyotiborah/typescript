@@ -1,3 +1,38 @@
+//Validation
+interface Validatable {
+    value: string | number;
+    required?: boolean; // ? is to make it optional, allow undefined.
+    minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number;
+}
+
+function validate(validateInput : Validatable): boolean {
+    let isValid = true;
+    if (validateInput.required) {
+        isValid = isValid && validateInput.value.toString().trim().length != 0;
+    }
+
+    if (validateInput.minLength != null && typeof validateInput.value === 'string') {
+       isValid = isValid && validateInput.value.length > validateInput.minLength;
+    }
+
+    if (validateInput.maxLength != null && typeof validateInput.value === 'string') {
+        isValid = isValid && validateInput.value.length <= validateInput.maxLength;
+     }
+
+     if (validateInput.min != null && typeof validateInput.value === 'number') {
+         isValid = isValid && validateInput.value >= validateInput.min;
+     }
+
+     if (validateInput.max != null && typeof validateInput.value === 'number') {
+        isValid = isValid && validateInput.value < validateInput.max;
+    }
+
+    return isValid;
+}
+
 //Autobind Decorator
 function autobind(_: any, _1: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
@@ -9,6 +44,33 @@ function autobind(_: any, _1: string, descriptor: PropertyDescriptor) {
         }
     };
     return adjDescriptor;
+}
+
+class ProjectList {
+    templateElement: HTMLTemplateElement;
+    hostElement: HTMLDivElement;
+    element : HTMLElement;
+
+    constructor(private type: 'active' | 'finished') {
+        this.templateElement =  document.getElementById('project-list')! as HTMLTemplateElement;
+        this.hostElement = document.getElementById('app')! as HTMLDivElement
+
+        //Get hold of the copy of the content of template node
+        const importedHtmlContent = document.importNode(this.templateElement.content, true);
+
+        // assign first child node of template to element property
+        this.element = importedHtmlContent.firstElementChild as HTMLElement
+        this.element.id = `${this.type}-projects`;
+        this.attach();
+    }
+
+    private rederContent() {
+
+    }
+    private attach() {
+         //inserts a given element node at a given position relative to the element it is invoked upon
+         this.hostElement.insertAdjacentElement('beforeend', this.element)
+    }
 }
 
 class ProjectInput {
@@ -42,6 +104,28 @@ class ProjectInput {
         const enteredTitle = this.titleInput.value;
         const enteredDescription = this.descriptionInput.value;
         const enteredPeople = this.peopleInput.value;
+
+        const titleValidatable: Validatable = {
+            value: enteredTitle,
+            required: true
+        }
+        const descriptionValidatable: Validatable = {
+            value: enteredDescription,
+            required: true,
+            minLength: 5
+        }
+        const peopleValidatable: Validatable = {
+            value: +enteredPeople,
+            required: true,
+            min: 1,
+            max: 5
+        }
+
+        if (validate(titleValidatable) && validate(descriptionValidatable) && validate(peopleValidatable)) {
+            return [enteredTitle, enteredDescription, +enteredPeople];
+        }
+        alert('Invalid input!!')
+        
     }
 
     private clearInput() {
@@ -55,6 +139,7 @@ class ProjectInput {
         const userInput = this.gatherUserInput();
         if (Array.isArray(userInput)) {
             const[title, description, people] = userInput;
+            console.log(title, description, people);
         }
         this.clearInput();
     }
