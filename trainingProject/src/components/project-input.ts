@@ -1,6 +1,6 @@
-import { Component} from './base-component.js';
-import { Validatable, validate} from '../util/validation.js';
-import { autobind } from '../decorators/autobind.js';
+import Component from './base-component.js';
+import * as Validation from '../util/validation.js';
+import { autobind as Autobind} from '../decorators/autobind.js';
 import { projectState } from '../state/project-state.js';
 
 export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement>{
@@ -25,23 +25,25 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement>{
         const enteredDescription = this.descriptionInput.value;
         const enteredPeople = this.peopleInput.value;
 
-        const titleValidatable: Validatable = {
+        const titleValidatable: Validation.Validatable = {
             value: enteredTitle,
             required: true
         }
-        const descriptionValidatable: Validatable = {
+        const descriptionValidatable: Validation.Validatable = {
             value: enteredDescription,
             required: true,
             minLength: 5
         }
-        const peopleValidatable: Validatable = {
+        const peopleValidatable: Validation.Validatable = {
             value: +enteredPeople,
             required: true,
             min: 1,
             max: 5
         }
 
-        if (validate(titleValidatable) && validate(descriptionValidatable) && validate(peopleValidatable)) {
+        if  (Validation.validate(titleValidatable) &&
+             Validation.validate(descriptionValidatable) && 
+             Validation.validate(peopleValidatable)) {
             return [enteredTitle, enteredDescription, +enteredPeople];
         }
         alert('Invalid input!!')
@@ -53,7 +55,7 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement>{
         this.descriptionInput.value = '';
         this.peopleInput.value = '';
     }
-    @autobind
+    @Autobind
     private submitHandler(event: Event) {
         event.preventDefault();
         const userInput = this.gatherUserInput();
